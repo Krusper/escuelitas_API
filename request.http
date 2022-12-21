@@ -1,0 +1,21 @@
+###
+GET http://localhost:9000/localidad HTTP/1.1
+
+###
+POST http://localhost:9000/localidad HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Sinaloa"
+}
+
+###
+DELETE http://localhost:9000/localidad/7 HTTP/1.1
+
+###
+PUT http://localhost:9000/localidad/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Aguascalientes"
+}
