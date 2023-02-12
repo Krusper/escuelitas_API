@@ -1,7 +1,7 @@
 const express = require('express');
 const routes = express.Router();
 
-routes.post('/', (req, res) => {
+routes.post('/add', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) {
             res.status(500).json({
@@ -29,7 +29,7 @@ routes.post('/', (req, res) => {
     })
 })
 
-routes.get('/', (req, res) =>{
+routes.get('/corte', (req, res) =>{
     req.getConnection((err, conn) => {
         if (err) {
             res.status(500).json({
@@ -62,6 +62,34 @@ routes.get('/', (req, res) =>{
                         totalIngresos: ingresosTotal,
                         totalEgresos: egresosTotal,
                         total: ingresosTotal - egresosTotal
+                    })
+                }
+            })
+        }
+    })
+})
+
+
+routes.get('/informe', (req, res) =>{
+    req.getConnection((err, conn) => {
+        if (err) {
+            res.status(500).json({
+                status: 500,
+                message: 'No se encontro conexion',
+                error: err
+            })
+        } else {
+            conn.query('call bd_escuelas.informes(?, ?);', [req.query.fechaInicio, req.query.fechaFin], (err, rows) =>{
+                if (err) {
+                    res.status(400).json({
+                        status: 400,
+                        message: 'Fallo al obtener datos',
+                        error: err
+                    });
+                }else{
+
+                    res.status(200).json({
+                        movimientos: rows[0],
                     })
                 }
             })
